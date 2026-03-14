@@ -3,6 +3,7 @@ import cors from 'cors';
 import pino from 'pino-http';
 import 'dotenv/config';
 import { connectMongoDB } from './db/connectMongoDB.js';
+import { Pharmacy } from './models/pharmacy.js';
 
 const app = express();
 // Використовуємо значення з .env або дефолтний порт 3000
@@ -61,6 +62,11 @@ app.get('/users/:userId', (req, res) => {
 app.get('/test-error', (req, res) => {
   // Штучна помилка для прикладу
   throw new Error('Something went wrong!!!');
+});
+
+app.get('/api/pharmacys', async (req, res) => {
+  const pharmacys = await Pharmacy.find();
+  res.status(200).json(pharmacys);
 });
 
 // Middleware 404 (після всіх маршрутів)
