@@ -4,7 +4,8 @@ import pino from 'pino-http';
 import 'dotenv/config';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { Pharmacy } from './models/pharmacy.js';
-import { Review } from './models/session.js';
+import { Review } from './models/review.js';
+import { Product } from './models/product.js';
 
 const app = express();
 // Використовуємо значення з .env або дефолтний порт 3000
@@ -32,47 +33,30 @@ app.use(
   }),
 );
 
-// app.post('/users', (req, res) => {
-//   console.log(req.body); // тепер тіло доступне як JS-об’єкт
-//   res.status(201).json({ message: 'User created' });
-// });
-
-// // Перший маршрут
-// app.get('/', (req, res) => {
-//   res.status(200).json({ message: 'Хто дивився мої резюме' });
-// });
-// // GET-запит до маршруту "/health"
-// app.get('/health', (req, res) => {
-//   res.status(200).json({
-//     status: 'Ok!',
-//   });
-// });
-
-// // Список усіх користувачів
-// app.get('/users', (req, res) => {
-//   res.status(200).json([{ id: 1, name: 'Alice' }]);
-// });
-
-// // Конкретний користувач за id
-// app.get('/users/:userId', (req, res) => {
-//   const { userId } = req.params;
-//   res.status(200).json({ id: userId, name: 'Jacob' });
-// });
-
-// // Маршрут для тестування middleware помилки
-// app.get('/test-error', (req, res) => {
-//   // Штучна помилка для прикладу
-//   throw new Error('Something went wrong!!!');
-// });
-
 app.get('/api/customer-reviews', async (req, res) => {
   const reviews = await Review.find();
   res.status(200).json(reviews);
 });
 
-app.get('/api/pharmacys', async (req, res) => {
+app.get('/api/stores', async (req, res) => {
   const pharmacies = await Pharmacy.find();
   res.status(200).json(pharmacies);
+});
+
+app.get('/api/products', async (req, res) => {
+  const products = await Product.find();
+  res.status(200).json(products);
+});
+
+app.get('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id);
+
+  if (!product) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+
+  res.status(200).json(product);
 });
 
 // Middleware 404 (після всіх маршрутів)
