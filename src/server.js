@@ -99,6 +99,7 @@ app.post('/api/cart/checkout', async (req, res) => {
   }
 
   // тут зазвичай створюється Order
+
   // const order = await Order.create(...)
 
   cart.items = [];
