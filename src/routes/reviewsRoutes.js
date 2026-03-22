@@ -1,10 +1,7 @@
 import { Router } from 'express';
-import { Review } from '../models/review.js';
+import { getReviews } from '../controllers/reviewsController.js';
 const router = Router();
 
-router.get('/api/customer-reviews', async (req, res) => {
-  const reviews = await Review.find();
-  res.status(200).json(reviews);
-});
+router.get('/api/customer-reviews', getReviews);
 
 export default router;

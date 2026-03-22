@@ -1,4 +1,4 @@
-import { Cart } from '../models/cart';
+import { Cart } from '../models/cart.js';
 
 export const getCart = async (req, res) => {
   const cart = await Cart.findOne({ userId: req.user.id });

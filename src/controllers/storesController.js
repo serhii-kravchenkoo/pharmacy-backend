@@ -1,5 +1,5 @@
-import { Nearest } from "../models/nearest";
-import { Pharmacy } from "../models/pharmacy";
+import { Nearest } from '../models/nearest.js';
+import { Pharmacy } from '../models/pharmacy.js';
 
 export const getPharmacies = async (req, res) => {
   const pharmacies = await Pharmacy.find();
