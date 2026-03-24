@@ -39,5 +39,5 @@ export const createOrder = async (req, res) => {
   cart.items = [];
   await cart.save();
 
-  res.status(200).json({ message: 'Checkout successful' });
+  res.status(201).json({ message: 'Checkout successful' });
 };
