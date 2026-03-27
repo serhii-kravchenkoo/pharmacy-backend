@@ -3,10 +3,15 @@ import {
   getProductById,
   getProducts,
 } from '../controllers/productsController.js';
+import { celebrate } from 'celebrate';
+import {
+  getAllProductsSchema,
+  productIdSchema,
+} from '../validations/productsValidation.js';
 const router = Router();
 
-router.get('/api/products', getProducts);
+router.get('/api/products', celebrate(getAllProductsSchema), getProducts);
 
-router.get('/api/products/:id', getProductById);
+router.get('/api/products/:id', celebrate(productIdSchema), getProductById);
 
 export default router;
