@@ -4,10 +4,12 @@ import {
   getCart,
   updateCart,
 } from '../controllers/cartController.js';
+import { celebrate } from 'celebrate';
+import { updateCartSchema } from '../validations/checkoutValidation.js';
 const router = Router();
 
 router.get('/api/cart', getCart);
-router.put('/api/cart/update', updateCart);
+router.put('/api/cart/update', celebrate(updateCartSchema), updateCart);
 router.post('/api/cart/checkout', createOrder);
 
 export default router;
