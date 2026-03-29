@@ -9,7 +9,7 @@ export const getAllProductsSchema = {
     category: Joi.string()
       .valid(...CATEGORIES)
       .optional(),
-    search: Joi.string().optional(),
+    search: Joi.string().trim().min(1).optional(),
   }),
 };
 
