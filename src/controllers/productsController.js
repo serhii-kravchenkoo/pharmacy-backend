@@ -2,8 +2,17 @@ import createHttpError from 'http-errors';
 import { Product } from '../models/product.js';
 
 export const getProducts = async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json(products);
+  const { page = 1, limit = 12 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const productsQuery = Product.find();
+  const [totalItems, products] = await Promise.all([
+    productsQuery.countDocuments(),
+    productsQuery.skip(skip).limit(limit),
+  ]);
+  const totalPages = Math.ceil(totalItems / limit);
+
+  res.status(200).json({ page, limit, totalItems, totalPages, products });
 };
 
 export const getProductById = async (req, res) => {
