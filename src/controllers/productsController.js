@@ -7,7 +7,7 @@ export const getProducts = async (req, res) => {
 
   const productsQuery = Product.find();
   const [totalItems, products] = await Promise.all([
-    productsQuery.countDocuments(),
+    productsQuery.clone().countDocuments(),
     productsQuery.skip(skip).limit(limit),
   ]);
   const totalPages = Math.ceil(totalItems / limit);
