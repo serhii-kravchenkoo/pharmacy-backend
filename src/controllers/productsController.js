@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import { Product } from '../models/product.js';
 
 export const getProducts = async (req, res) => {
-  const { page = 1, limit = 12, category } = req.query;
+  const { page = 1, limit = 12, category, search } = req.query;
 
   const skip = (page - 1) * limit;
 
@@ -10,6 +10,10 @@ export const getProducts = async (req, res) => {
 
   if (category) {
     productsQuery.where('category').equals(category);
+  }
+
+  if (search) {
+    productsQuery.where({ $text: { $search: search } });
   }
 
   const [totalItems, products] = await Promise.all([
