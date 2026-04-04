@@ -10,6 +10,7 @@ import reviewsRoutes from './routes/reviewsRoutes.js';
 import storesRoutes from './routes/storesRoutes.js';
 import productsRoutes from './routes/productsRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express(); // Використовуємо значення з .env або дефолтний порт 3000
 const PORT = process.env.PORT ?? 3000;
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 // підключаємо групу маршрутів
+app.use(authRoutes);
 app.use(reviewsRoutes);
 app.use(storesRoutes);
 app.use(productsRoutes);
