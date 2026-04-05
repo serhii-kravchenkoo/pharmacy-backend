@@ -3,7 +3,7 @@ import { User } from '../models/user.js';
 import bcrypt from 'bcrypt';
 
 export const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name, phone } = req.body;
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -13,8 +13,9 @@ export const registerUser = async (req, res) => {
   const newUser = await User.create({
     email,
     password: hashedPassword,
+    name,
+    phone,
   });
-  // Тут далі будемо додавати логіку створення користувача
-  // Поки що відповідаємо порожнім об'єктом
+
   res.status(201).json({ newUser });
 };
