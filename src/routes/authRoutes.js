@@ -1,6 +1,6 @@
 import { celebrate } from 'celebrate';
-import { registerUserSchema } from '../validations/authValidation';
-import { registerUser } from '../controllers/authController';
+import { registerUserSchema } from '../validations/authValidation.js';
+import { registerUser } from '../controllers/authController.js';
 import { Router } from 'express';
 
 const router = Router();
