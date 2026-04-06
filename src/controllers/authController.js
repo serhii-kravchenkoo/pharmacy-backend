@@ -1,6 +1,8 @@
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import bcrypt from 'bcrypt';
+import { createSession } from '../services/auth.js';
+import { Session } from '../models/session.js';
 
 export const registerUser = async (req, res) => {
   const { email, password, name, phone } = req.body;
@@ -17,7 +19,9 @@ export const registerUser = async (req, res) => {
     phone,
   });
 
-  res.status(201).json({ newUser });
+  const newSession = await createSession(newUser._id);
+
+  res.status(201).json(newUser);
 };
 
 export const loginUser = async (req, res) => {
@@ -31,5 +35,10 @@ export const loginUser = async (req, res) => {
   if (!isValidPassword) {
     throw createHttpError(401, 'Invalid email or password');
   }
+  // Видаляємо стару сесію користувача
+  await Session.deleteOne({ userId: user._id });
+  // Створюємо нову сесію
+  const newSession = await createSession(user._id);
+
   res.status(200).json(user);
 };
