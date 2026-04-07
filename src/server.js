@@ -11,6 +11,7 @@ import storesRoutes from './routes/storesRoutes.js';
 import productsRoutes from './routes/productsRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express(); // Використовуємо значення з .env або дефолтний порт 3000
 const PORT = process.env.PORT ?? 3000;
@@ -19,6 +20,7 @@ const PORT = process.env.PORT ?? 3000;
 app.use(logger);
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 // підключаємо групу маршрутів
 app.use(authRoutes);
