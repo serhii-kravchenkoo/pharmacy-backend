@@ -80,3 +80,13 @@ export const refreshUserSession = async (req, res) => {
   setSessionCookies(res, newSession);
   res.status(200).json({ message: 'Session refreshed' });
 };
+
+export const getUserInfo = async (req, res) => {
+  if (!req.user) {
+    throw createHttpError(401, 'Unauthorized');
+  }
+  res.status(200).json({
+    name: req.user.name,
+    email: req.user.email,
+  });
+};
