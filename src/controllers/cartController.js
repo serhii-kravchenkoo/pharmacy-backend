@@ -3,7 +3,7 @@ import { Product } from '../models/product.js';
 import { Order } from '../models/order.js';
 
 export const getCart = async (req, res) => {
-  const cart = await Cart.findOne({ userId: req.user.id });
+  const cart = await Cart.findOne({ userId: req.user._id });
   if (!cart) {
     return res.status(200).json({ items: [] });
   }
@@ -17,12 +17,12 @@ export const updateCart = async (req, res) => {
     return res.status(400).json({ message: 'productId and quantity required' });
   }
 
-  let cart = await Cart.findOne({ userId: req.user.id });
+  let cart = await Cart.findOne({ userId: req.user._id });
 
   // якщо корзини ще нема — створюємо
   if (!cart) {
     cart = await Cart.create({
-      userId: req.user.id,
+      userId: req.user._id,
       items: [],
     });
   }
@@ -54,7 +54,7 @@ export const updateCart = async (req, res) => {
 export const createOrder = async (req, res) => {
   const { userName, phone, email, address } = req.body;
 
-  const cart = await Cart.findOne({ userId: req.user.id });
+  const cart = await Cart.findOne({ userId: req.user._id });
 
   if (!cart || cart.items.length === 0) {
     return res.status(400).json({ message: 'Cart is empty' });
@@ -86,7 +86,7 @@ export const createOrder = async (req, res) => {
   });
 
   const order = await Order.create({
-    userId: req.user.id,
+    userId: req.user._id,
     userName,
     phone,
     email,
@@ -98,6 +98,5 @@ export const createOrder = async (req, res) => {
   // очищаємо корзину
   cart.items = [];
   await cart.save();
-
-  res.status(201).json(order);
+  +res.status(201).json(order);
 };
